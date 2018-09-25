@@ -3,17 +3,17 @@
 #include <time.h>
 #include <math.h>
 
-void inicializaVetorPesos(double w[201][4]){
+void inicializaVetorPesos(double w[201][10]){
     int i,j;
     srand((double) time(NULL)); // mudar a sequencia usando o relógio
 
-    printf("vetor pesos sinapticos original:\n");
+    //printf("vetor pesos sinapticos original:\n");
     for(i=0;i<201;i++){ // inicializar os pesos c valores aleatórios entre 0 e 1
-        for(j=0;j<4;j++){
+        for(j=0;j<10;j++){
             w[i][j] = ((double) rand() / (double)(RAND_MAX));
-            printf("%lf ",w[i][j]);
+            //printf("%lf ",w[i][j]);
         }
-        printf("\n");
+        //printf("\n");
     }
 }
 
@@ -56,7 +56,7 @@ double derivadaFuncaoLogistica(double u){
     return (0.0005*pow(2.718281,(-0.0005*u))) / (1+pow(2.718281,pow((-0.0005*u),2)));
 }
 
-double ErroMedio(double w[201][4], double entradas[201][4]){
+double ErroMedio(double w[201][10], double entradas[201][4]){
 
     int i,j,z;
     double erro=0.0,l[2],p=200.0,y[2];
@@ -67,7 +67,7 @@ double ErroMedio(double w[201][4], double entradas[201][4]){
     }
 
     for(z=0;z<2;z++){ // n camadas
-        for(i=0;i<4;i++){
+        for(i=0;i<10;i++){
             for(j=0;j<201;j++){
                 if(i==0){
                     l[z] += w[j][i]*entradas[j][3]; // a saida do primeiro neuronio
@@ -100,7 +100,7 @@ double ErroMedio(double w[201][4], double entradas[201][4]){
     erro = erro * 0.5;
     double erroMedio = (1 / p)*erro;
 
-    printf("%lf,\n",erroMedio);
+    //printf("%lf,\n",erroMedio);
 
     return erroMedio;
 }
@@ -113,7 +113,7 @@ int main()
     double entradas[201][4];
     inicializaEntradas(entradas); // saidas desejadas estão junto as entradas
 
-    double w[201][4]; // pesos sinápticos
+    double w[201][10]; // pesos sinápticos
     inicializaVetorPesos(w);
 
     double taxaAprendizado = 0.1,precisao = 0.000001;
@@ -137,7 +137,7 @@ int main()
         }
 
         for(z=0;z<2;z++){ // n camadas
-            for(i=0;i<4;i++){
+            for(i=0;i<10;i++){
                 for(j=0;j<201;j++){
                     if(i==0){
                         l[z] += w[j][i]*entradas[j][3]; // a saida do primeiro neuronio
@@ -159,20 +159,20 @@ int main()
         }
         //printf("delta camada 2 = %lf\n",deltaCamada2);
 
-        for(i=3;i>=0;i--){
+        for(i=9;i>=0;i--){
             for(j=0;j<201;j++){
                 w[j][i] = w[j][i] + taxaAprendizado * deltaCamada2 * y[0];
             }
         }
 
         double deltaCamada1 = 0.0;
-        for(i=3;i>=0;i--){
+        for(i=9;i>=0;i--){
             for(j=0;j<201;j++){
                 deltaCamada1 += ((deltaCamada2*w[j][i]) * derivadaFuncaoLogistica(l[1]));
             }
         }
         deltaCamada1 *=-1;
-        for(i=3;i>=0;i--){
+        for(i=9;i>=0;i--){
             for(j=0;j<201;j++){
                 w[j][i] = w[j][i] + taxaAprendizado * deltaCamada1 * y[1];
             }
@@ -187,17 +187,17 @@ int main()
 
     }while((eqmAnterior - eqmAtual) >= precisao);
 
-    printf("vetor pesos sinapticos final:\n");
+    /*printf("vetor pesos sinapticos final:\n");
 
     for(i=0;i<201;i++){
-        for(j=0;j<4;j++){
+        for(j=0;j<10;j++){
 
             printf("%lf ",w[i][j]);
         }
         printf("\n");
     }
 
-    printf("@@@@@@@@@@@@@@@@\n\n");
+    printf("@@@@@@@@@@@@@@@@\n\n");*/
     printf("qtd epocas = %d\n\n",contEpocas);
 
     // Fase de operação
@@ -230,7 +230,7 @@ int main()
     int r;
     for(r=0;r<20;r++){
         for(z=0;z<2;z++){ // n camadas
-            for(i=0;i<4;i++){
+            for(i=0;i<10;i++){
                 for(j=0;j<20;j++){
                     if(i==0){
                         l[z] += w[j][i] * testes[j][i]; // a saida do primeiro neuronio
