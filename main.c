@@ -58,7 +58,7 @@ double derivadaFuncaoLogistica(double u){
 double ErroMedio(double w[201][11], double entradas[201][4]){
 
     int i,j,z;
-    double erro=0.0,l[2],p=200.0,y[2];
+    double erro=0.0,l[camadas],p=200.0,y[camadas];
 
     for(z=0;z<camadas;z++){
         l[z] = 0.0;
@@ -96,7 +96,7 @@ int main()
     inicializaEntradas(entradas); // saidas desejadas estão junto as entradas
     inicializaVetorPesos(w);
 
-    double taxaAprendizado = 0.1,precisao = 0.000001,eqmAtual=0.0, eqmAnterior=0.0,verifica=0.0,l[2],y[2],gradiente[2],deltaUltimacamada,deltaCamada1;
+    double taxaAprendizado = 0.1,precisao = 0.000001,eqmAtual=0.0, eqmAnterior=0.0,verifica=0.0,l[camadas],y[camadas],deltaUltimacamada,deltaCamada1;
     int contEpocas = 0,i,j,z,r,g;
 
     /// algoritmo de treinamento backpropagation, regra delta generalizada
